@@ -1,38 +1,32 @@
+// App.js
 import React, { useState } from 'react';
-import Router from './components/Router';
-import ToastContainer from './components/ToastContainer';
-import './ContactApp.css';
+import HomePage from './pages/HomePage';
 import AddContactPage from './pages/AddContactPage';
+import ContactDetailPage from './pages/ContactDetailPage';
+import Footer from './pages/Footer';
+import './ContactApp.css';
 
-// Note: Other page components like HomePage and ContactDetailPage would be similarly defined in their respective files.
-
-// Simple CSS for the app can be included in ContactApp.css   
-// Main App Component
-function ContactApp() {
+function App() {
+  // Simple navigation state
   const [currentPage, setCurrentPage] = useState('home');
-  const [contactId, setContactId] = useState(null);
-  const [toasts, setToasts] = useState([]);
+  const [selectedContactId, setSelectedContactId] = useState(null);
 
-  const addToast = (message, type = 'success') => {
-    const id = Date.now();
-    setToasts(prev => [...prev, { id, message, type }]);
-  };
-
-  const removeToast = (id) => {
-    setToasts(prev => prev.filter(toast => toast.id !== id));
+  const navigate = (page, contactId = null) => {
+    setCurrentPage(page);
+    setSelectedContactId(contactId);
+    window.scrollTo(0, 0); // scroll to top on page change
   };
 
   return (
-    <div className="contact-app">
-      <Router 
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        contactId={contactId}
-        setContactId={setContactId}
-      />
-      <ToastContainer toasts={toasts} removeToast={removeToast} />
+    <div className="app">
+      {currentPage === 'home' && <HomePage navigate={navigate} />}
+      {currentPage === 'add-contact' && <AddContactPage navigate={navigate} />}
+      {currentPage === 'contact-detail' && selectedContactId && (
+        <ContactDetailPage navigate={navigate} contactId={selectedContactId} />
+      )}
+      <Footer />
     </div>
   );
 }
 
-export default ContactApp;
+export default App;

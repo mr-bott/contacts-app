@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import useContactStore from '../store/useContactStore';
 import '../ContactApp.css'; 
+
 import ContactCard from '../components/ContactCard';
 import { UserPlus } from 'lucide-react';
+
 // HomePage Component
 const HomePage = ({ navigate }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -107,6 +109,7 @@ const HomePage = ({ navigate }) => {
           )}
         </section>
       </div>
+  
     </div>
   );
 };
